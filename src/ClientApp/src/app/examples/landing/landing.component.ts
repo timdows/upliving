@@ -3,7 +3,7 @@ import * as Rellax from 'rellax';
 
 @Component({
   selector: 'app-landing',
-  templateUrl: './landing.component.html',
+  templateUrl: './landing.component.pug',
   styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
