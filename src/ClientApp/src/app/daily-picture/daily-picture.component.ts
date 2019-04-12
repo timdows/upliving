@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import * as Rellax from 'rellax';
 
 @Component({
-  selector: 'app-landing',
-  templateUrl: './landing.component.pug',
-  styleUrls: ['./landing.component.scss']
+  selector: 'app-daily-picture',
+  templateUrl: './daily-picture.component.pug',
+  styleUrls: ['./daily-picture.component.scss']
 })
-export class LandingComponent implements OnInit {
-  data : Date = new Date();
-  focus;
-  focus1;
+export class DailyPictureComponent implements OnInit {
 
   constructor() { }
 
@@ -27,4 +23,5 @@ export class LandingComponent implements OnInit {
     var navbar = document.getElementsByTagName('nav')[0];
     navbar.classList.remove('navbar-transparent');
   }
+
 }
