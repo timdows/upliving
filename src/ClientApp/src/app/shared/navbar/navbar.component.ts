@@ -3,7 +3,7 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 
 @Component({
     selector: 'app-navbar',
-    templateUrl: './navbar.component.html',
+    templateUrl: './navbar.component.pug',
     styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
