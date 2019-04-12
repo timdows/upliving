@@ -10,12 +10,16 @@ import { ExamplesModule } from './examples/examples.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { DailyPictureComponent } from './daily-picture/daily-picture.component';
+import { ProfileComponent } from './profile/profile.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavbarComponent,
-        DailyPictureComponent
+        DailyPictureComponent,
+        ProfileComponent,
+        FooterComponent
     ],
     imports: [
         BrowserAnimationsModule,

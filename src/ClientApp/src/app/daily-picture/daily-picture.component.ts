@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./daily-picture.component.scss']
 })
 export class DailyPictureComponent implements OnInit {
-  data : Date = new Date();
+  
   constructor() { }
 
   ngOnInit() {
