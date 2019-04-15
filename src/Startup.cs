@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 using Upliving.Models;
 
 namespace Upliving
@@ -28,6 +29,11 @@ namespace Upliving
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new Info { Title = "Upliving API", Version = "v1" });
+			});
 
 			services.AddMediatR();
 
