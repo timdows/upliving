@@ -54,8 +54,14 @@ namespace Upliving
                 //app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
-            app.UseStaticFiles();
+			app.UseSwagger();
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "Upliving API");
+			});
+
+			//app.UseHttpsRedirection();
+			app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
