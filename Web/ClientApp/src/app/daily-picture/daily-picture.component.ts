@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Hour1400Service, Hour1400File } from 'api';
 
 @Component({
@@ -10,7 +10,9 @@ export class DailyPictureComponent implements OnInit {
 
 	hour1400Files: Array<Hour1400File>
 
-	constructor(private hour1400Service: Hour1400Service) { }
+	constructor(
+		private hour1400Service: Hour1400Service,
+		@Inject('BASE_URL') private baseUrl: string) { }
 
 	ngOnInit() {
 		var body = document.getElementsByTagName('body')[0];
@@ -29,6 +31,10 @@ export class DailyPictureComponent implements OnInit {
 		body.classList.remove('landing-page');
 		var navbar = document.getElementsByTagName('nav')[0];
 		navbar.classList.remove('navbar-transparent');
+	}
+
+	getImagePath(hour1400File: Hour1400File) {
+		return `${this.baseUrl}api/Hour1400/GetImage?fileName=${hour1400File.fileName}`;
 	}
 
 }

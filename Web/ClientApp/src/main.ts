@@ -4,8 +4,16 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
-if (environment.production) {
-  enableProdMode();
+export function getBaseUrl() {
+	return document.getElementsByTagName('base')[0].href;
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+const providers = [
+	{ provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
+];
+
+if (environment.production) {
+	enableProdMode();
+}
+
+platformBrowserDynamic(providers).bootstrapModule(AppModule);

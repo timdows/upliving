@@ -5,13 +5,10 @@
       .content-center
         h1.title Elke dag om 14:00 een foto 
   .section.section-about-us
-    .container
+    .container  
       .row
-        .col-md-10.ml-auto.mr-auto
-          .row.collections
-            .col-md-6
-              img.img-raised(src='assets/img/bg6.jpg')
-              img.img-raised(src='assets/img/bg11.jpg', alt='')
-            .col-md-6
-              img.img-raised(src='assets/img/bg7.jpg', alt='')
-              img.img-raised(src='assets/img/bg8.jpg', alt='')
+        .col-md-11
+          .thumbnails
+            .thumbnail-item(*ngFor="let hour1400File of hour1400Files")
+              img.img-raised([src]="getImagePath(hour1400File)")
+              .text {{hour1400File.dateTaken | date:'d MMM y'}}
