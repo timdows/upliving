@@ -23,5 +23,14 @@ namespace Upliving.Controllers
 			var result = await _mediator.Send(request);
 			return Ok(result);
 		}
+
+		[HttpPost]
+		[ProducesResponseType(typeof(GetThumbnailsResponse), 200)]
+		[ProducesResponseType(500)]
+		public async Task<IActionResult> GetThumbnails([FromBody] GetThumbnailsRequest request)
+		{
+			var result = await _mediator.Send(request);
+			return Ok(result);
+		}
 	}
 }
