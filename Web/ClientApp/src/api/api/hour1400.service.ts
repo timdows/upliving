@@ -18,6 +18,8 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
 
+import { GetThumbnailsRequest } from '../model/getThumbnailsRequest';
+import { GetThumbnailsResponse } from '../model/getThumbnailsResponse';
 import { Hour1400UploadRequest } from '../model/hour1400UploadRequest';
 import { Hour1400UploadResponse } from '../model/hour1400UploadResponse';
 
@@ -56,6 +58,98 @@ export class Hour1400Service {
         return false;
     }
 
+
+    /**
+     * 
+     * 
+     * @param fileName 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getImage(fileName?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getImage(fileName?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getImage(fileName?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getImage(fileName?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (fileName !== undefined && fileName !== null) {
+            queryParameters = queryParameters.set('fileName', <any>fileName);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.get<any>(`${this.basePath}/api/Hour1400/GetImage`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param request 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getThumbnails(request?: GetThumbnailsRequest, observe?: 'body', reportProgress?: boolean): Observable<GetThumbnailsResponse>;
+    public getThumbnails(request?: GetThumbnailsRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<GetThumbnailsResponse>>;
+    public getThumbnails(request?: GetThumbnailsRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<GetThumbnailsResponse>>;
+    public getThumbnails(request?: GetThumbnailsRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json-patch+json',
+            'application/json',
+            'text/json',
+            'application/_*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.post<GetThumbnailsResponse>(`${this.basePath}/api/Hour1400/GetThumbnails`,
+            request,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
 
     /**
      * 
