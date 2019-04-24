@@ -43,7 +43,6 @@ namespace Upliving.UseCases.Hour1400
 
 			if (!File.Exists(filePath))
 			{
-
 				if (request.Bytes.Length > 0)
 				{
 					using (var stream = new FileStream(filePath, FileMode.Create))

@@ -1,27 +1,34 @@
 import { Component, OnInit } from '@angular/core';
+import { Hour1400Service, Hour1400File } from 'api';
 
 @Component({
-  selector: 'app-daily-picture',
-  templateUrl: './daily-picture.component.pug',
-  styleUrls: ['./daily-picture.component.scss']
+	selector: 'app-daily-picture',
+	templateUrl: './daily-picture.component.pug',
+	styleUrls: ['./daily-picture.component.scss']
 })
 export class DailyPictureComponent implements OnInit {
-  
-  constructor() { }
 
-  ngOnInit() {
-    // var rellaxHeader = new Rellax('.rellax-header');
+	hour1400Files: Array<Hour1400File>
 
-    var body = document.getElementsByTagName('body')[0];
-    body.classList.add('landing-page');
-    var navbar = document.getElementsByTagName('nav')[0];
-    navbar.classList.add('navbar-transparent');
-  }
-  ngOnDestroy(){
-    var body = document.getElementsByTagName('body')[0];
-    body.classList.remove('landing-page');
-    var navbar = document.getElementsByTagName('nav')[0];
-    navbar.classList.remove('navbar-transparent');
-  }
+	constructor(private hour1400Service: Hour1400Service) { }
+
+	ngOnInit() {
+		var body = document.getElementsByTagName('body')[0];
+		body.classList.add('landing-page');
+		var navbar = document.getElementsByTagName('nav')[0];
+		navbar.classList.add('navbar-transparent');
+
+		this.hour1400Service.getThumbnails({})
+			.subscribe(data => {
+				this.hour1400Files = data.hour1400Files;
+			});
+	}
+
+	ngOnDestroy() {
+		var body = document.getElementsByTagName('body')[0];
+		body.classList.remove('landing-page');
+		var navbar = document.getElementsByTagName('nav')[0];
+		navbar.classList.remove('navbar-transparent');
+	}
 
 }

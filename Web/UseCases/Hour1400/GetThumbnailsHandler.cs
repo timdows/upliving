@@ -29,8 +29,8 @@ namespace Upliving.UseCases.Hour1400
 			}
 
 			var images = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), _appSettings.Hour1400Path))
+				.Where(item => item.EndsWith("_thumb.jpg"))
 				.Select(item => Hour1400File.CreateImageFileDetails(item))
-				.Where(item => item.FileName.EndsWith("_thumb.jpg"))
 				.OrderByDescending(item => item.DateTaken)
 				.ToList();
 

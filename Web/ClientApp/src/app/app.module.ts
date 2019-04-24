@@ -12,6 +12,17 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { DailyPictureComponent } from './daily-picture/daily-picture.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { ApiModule, Configuration, ConfigurationParameters } from 'api';
+import { environment } from 'environments/environment';
+import { HttpClientModule } from '@angular/common/http';
+
+export function apiConfigFactory(): Configuration {
+    const params: ConfigurationParameters = {
+        basePath: environment.serverUrl,
+        apiKeys: {}
+    }
+    return new Configuration(params);
+}
 
 @NgModule({
     declarations: [
@@ -22,6 +33,8 @@ import { FooterComponent } from './shared/footer/footer.component';
         FooterComponent
     ],
     imports: [
+        ApiModule.forRoot(apiConfigFactory),
+        HttpClientModule,
         BrowserAnimationsModule,
         NgbModule.forRoot(),
         FormsModule,
