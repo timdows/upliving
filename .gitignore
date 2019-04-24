@@ -336,3 +336,4 @@ ASALocalRun/
 .vscode/buildUpliving.ps1
 .vscode/uploadUpliving.ps1
 /Creator/appsettings.json
+Web/appsettings.json

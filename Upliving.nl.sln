@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upliving", "src\Upliving.csproj", "{314C29F8-771D-409F-AFC2-B21B316E0684}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Upliving", "Web\Upliving.csproj", "{314C29F8-771D-409F-AFC2-B21B316E0684}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Creator", "Creator\Creator.csproj", "{0008293D-7772-4143-8B94-EB833AA90FC4}"
 EndProject
