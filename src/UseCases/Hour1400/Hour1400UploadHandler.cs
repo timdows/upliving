@@ -41,11 +41,15 @@ namespace Upliving.UseCases.Hour1400
 			// full path to file in temp location
 			var filePath = Path.Combine(saveDir, request.FileName);
 
-			if (request.Bytes.Length > 0)
+			if (!File.Exists(filePath))
 			{
-				using (var stream = new FileStream(filePath, FileMode.Create))
+
+				if (request.Bytes.Length > 0)
 				{
-					await stream.WriteAsync(request.Bytes);
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						await stream.WriteAsync(request.Bytes);
+					}
 				}
 			}
 

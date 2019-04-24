@@ -44,13 +44,5 @@ namespace Creator.Services
         /// </param>
         Task<HttpOperationResponse<object>> Hour1400UploadWithHttpMessagesAsync(Hour1400UploadRequest request = default(Hour1400UploadRequest), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
-        /// <param name='customHeaders'>
-        /// The headers that will be added to request.
-        /// </param>
-        /// <param name='cancellationToken'>
-        /// The cancellation token.
-        /// </param>
-        Task<HttpOperationResponse<IList<WeatherForecast>>> WeatherForecastsWithHttpMessagesAsync(Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
-
     }
 }
