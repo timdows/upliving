@@ -21,7 +21,8 @@ namespace Creator
 				System.Globalization.DateTimeStyles.None,
 				out dateTimeTaken))
 			{
-				return null;
+				//return null;
+				return CreateImageFromEpochFile(path);
 			}
 
 			return new ImageFileDetails
