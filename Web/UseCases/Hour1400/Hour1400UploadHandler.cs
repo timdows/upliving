@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Upliving.Helpers;
 using Upliving.Models;
 
 namespace Upliving.UseCases.Hour1400
@@ -49,6 +50,8 @@ namespace Upliving.UseCases.Hour1400
 					{
 						await stream.WriteAsync(request.Bytes);
 					}
+
+					ImageHelpers.CreateThumbnail(filePath);
 				}
 			}
 
