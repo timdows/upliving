@@ -9,59 +9,63 @@ namespace Creator.Commands
 	{
 		public static async Task Execute(AppSettings appSettings, string workingDirectory)
 		{
-			var files = Directory.GetFiles(workingDirectory, "*.jpg", SearchOption.AllDirectories)
+			var fileGroup = Directory.GetFiles(workingDirectory, "*.jpg", SearchOption.AllDirectories)
 				.Select(item => ImageFileDetails.CreateImageFileDetails(item))
 				.Where(item => item != null)
+				.GroupBy(item => item.DateTimeTaken.Date)
 				.ToList();
 
-			var fileAfter = files
-				.OrderBy(item => item.DateTimeTaken)
-				.FirstOrDefault(item => item.DateTimeTaken.Hour >= 14);
-
-			var fileBefore = files
-				.OrderByDescending(item => item.DateTimeTaken)
-				.FirstOrDefault(item => item.DateTimeTaken.Hour < 14);
-
-			ImageFileDetails saveFile = null;
-			if ((fileAfter?.DateTimeTaken.Hour ?? 23) - 14 <= 14 - (fileBefore?.DateTimeTaken.Hour ?? 0))
+			foreach (var files in fileGroup)
 			{
-				saveFile = fileAfter;
-			}
+				var fileAfter = files
+					.OrderBy(item => item.DateTimeTaken)
+					.FirstOrDefault(item => item.DateTimeTaken.Hour >= 14);
 
-			if ((fileAfter?.DateTimeTaken.Hour ?? 23) - 14 >= 14 - (fileBefore?.DateTimeTaken.Hour ?? 0))
-			{
-				saveFile = fileBefore;
-			}
+				var fileBefore = files
+					.OrderByDescending(item => item.DateTimeTaken)
+					.FirstOrDefault(item => item.DateTimeTaken.Hour < 14);
 
-			if (saveFile == null && fileBefore != null)
-			{
-				saveFile = fileBefore;
-			}
-
-			if (saveFile == null)
-			{
-				return;
-			}
-
-			Console.WriteLine($"Hour1400 file: {saveFile.Path}");
-
-			try
-			{
-				using (var client = new Services.UplivingAPI { BaseUri = new Uri(appSettings.ServiceApiLocation) })
+				ImageFileDetails saveFile = null;
+				if ((fileAfter?.DateTimeTaken.Hour ?? 23) - 14 <= 14 - (fileBefore?.DateTimeTaken.Hour ?? 0))
 				{
-					var fileName = $"{saveFile.DateTimeTaken.ToString("yyyy-MM-ddTHHmmss")}.jpg";
-
-					var uploadResponse = await client.Hour1400UploadWithHttpMessagesAsync(new Services.Models.Hour1400UploadRequest
-					{
-						Secret = appSettings.Hour1400UploadSecret,
-						Bytes = await File.ReadAllBytesAsync(saveFile.Path),
-						FileName = fileName
-					});
+					saveFile = fileAfter;
 				}
-			}
-			catch (Exception excep)
-			{
-				Console.Error.WriteLine(excep.Message);
+
+				if ((fileAfter?.DateTimeTaken.Hour ?? 23) - 14 >= 14 - (fileBefore?.DateTimeTaken.Hour ?? 0))
+				{
+					saveFile = fileBefore;
+				}
+
+				if (saveFile == null && fileBefore != null)
+				{
+					saveFile = fileBefore;
+				}
+
+				if (saveFile == null)
+				{
+					return;
+				}
+
+				Console.WriteLine($"Hour1400 file: {saveFile.Path}");
+
+				try
+				{
+					using (var client = new Services.UplivingAPI { BaseUri = new Uri(appSettings.ServiceApiLocation) })
+					{
+						var fileName = $"{saveFile.DateTimeTaken.ToString("yyyy-MM-ddTHHmmss")}.jpg";
+
+						var uploadResponse = await client.Hour1400UploadWithHttpMessagesAsync(new Services.Models.Hour1400UploadRequest
+						{
+							Secret = appSettings.Hour1400UploadSecret,
+							Bytes = await File.ReadAllBytesAsync(saveFile.Path),
+							FileName = fileName
+						});
+					}
+				}
+				catch (Exception excep)
+				{
+					Console.Error.WriteLine(excep.Message);
+				}
 			}
 		}
 	}
