@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,6 +69,72 @@ namespace Creator
 				//await CreateTimelapseMP4Command.CreateTimelapseMP4(appSettings, destinationDirectory, date);
 
 				await AddPathToFinishedFile(sourceDirectory);
+			}
+		}
+
+		private static void SortImagePerMinute(AppSettings appSettings)
+		{
+			var allImageFileDetails = new List<ImageFileDetails>();
+
+			var directories = Directory.GetDirectories(appSettings.SourceImageLocation);
+			foreach (var directory in directories)
+			{
+				Console.Write($"Working dir {directory}");
+				var allFiles = Directory.GetFiles(directory, "*.jpg", SearchOption.TopDirectoryOnly);
+				Console.WriteLine($" {allFiles.Length} files");
+
+				var i = 0;
+				foreach (var file in allFiles)
+				{
+					var imageFileDetails = ImageFileDetails.CreateImageFileDetails(file);
+					allImageFileDetails.Add(imageFileDetails);
+					Console.Write($"\r{i++} of {allFiles.Length}");
+				}
+
+				Console.WriteLine();
+			}
+
+			allImageFileDetails = allImageFileDetails.Where(item => item != null).ToList();
+
+			var groupImageFileDetails = allImageFileDetails.GroupBy(item => item.DateTimeTaken.Date);
+
+			foreach (var groupImageFileDetail in groupImageFileDetails)
+			{
+				var destinationDirectory = Path.Combine(appSettings.MonthImageLocation, groupImageFileDetail.Key.ToString("yyyy-MM-dd"));
+				Directory.CreateDirectory(destinationDirectory);
+
+				//var perMinute = groupImageFileDetail.GroupBy(item => item.DateTimeTaken.)
+				var perMinuteGroups = groupImageFileDetail.Select(x => new
+				{
+					Element = x,
+					Day = x.DateTimeTaken.Date,
+					Hour = x.DateTimeTaken.AddMilliseconds(-1).Hour,
+					Minute = x.DateTimeTaken.AddMilliseconds(-1).Minute,
+					Second = x.DateTimeTaken.AddMilliseconds(-1).Second
+				})
+				 .GroupBy(x => new { x.Day, x.Hour, x.Minute });
+				foreach (var perMinuteGroup in perMinuteGroups)
+				{
+					var imageFileDetail = perMinuteGroup
+						.OrderByDescending(item => item.Second)
+						.First()
+						.Element;
+					try
+					{
+						File.Copy(imageFileDetail.Path, Path.Combine(destinationDirectory, imageFileDetail.SaveDateTimeFileName));
+					}
+					catch (Exception excep)
+					{
+						var a = excep.Message;
+					}
+				}
+
+				// Remove the source stuff
+				var allFiles = groupImageFileDetail.ToList();
+				foreach (var file in allFiles)
+				{
+					File.Delete(file.Path);
+				}
 			}
 		}
 

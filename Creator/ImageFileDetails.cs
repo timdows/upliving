@@ -8,6 +8,8 @@ namespace Creator
 		public string FileName { get; set; }
 		public DateTime DateTimeTaken { get; set; }
 
+		public string SaveDateTimeFileName => $"{DateTimeTaken.ToString("yyyy-MM-dd HHmmss")}.jpg";
+
 		public static ImageFileDetails CreateImageFileDetails(string path)
 		{
 			var fileName = System.IO.Path.GetFileName(path);
@@ -46,7 +48,7 @@ namespace Creator
 				return null;
 			}
 
-			DateTime dateTimeTaken = dateTimeOffset.UtcDateTime;
+			DateTime dateTimeTaken = dateTimeOffset.LocalDateTime;
 
 			return new ImageFileDetails
 			{
