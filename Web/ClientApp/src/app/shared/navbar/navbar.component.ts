@@ -10,11 +10,15 @@ export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
 
+    siteName: string = "upliving.nl";
+
     constructor(public location: Location, private element : ElementRef) {
         this.sidebarVisible = false;
     }
 
     ngOnInit() {
+        this.siteName = window.location.host;
+        
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
     }

@@ -15,6 +15,8 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { ApiModule, Configuration, ConfigurationParameters } from 'api';
 import { environment } from 'environments/environment';
 import { HttpClientModule } from '@angular/common/http';
+import { BuyDomainComponent } from './buy-domain/buy-domain.component';
+import { HomeComponent } from './home/home.component';
 
 export function apiConfigFactory(): Configuration {
     const params: ConfigurationParameters = {
@@ -30,7 +32,9 @@ export function apiConfigFactory(): Configuration {
         NavbarComponent,
         DailyPictureComponent,
         ProfileComponent,
-        FooterComponent
+        FooterComponent,
+        BuyDomainComponent,
+        HomeComponent
     ],
     imports: [
         ApiModule.forRoot(apiConfigFactory),
